@@ -20,7 +20,8 @@ namespace StoryTeller.Domain
         public Test(string name, string suiteName, ITestPartCollection parts)
         {
             _parts = parts;
-            _name = name;
+            Name = name;
+
             SuiteName = suiteName;
             NumberOfRetries = 5;
         }
@@ -61,11 +62,6 @@ namespace StoryTeller.Domain
             get
             {
                 string filename = _fileName.IsNotEmpty() ? _fileName : Name + ".xml";
-
-                if(filename.Contains(" "))
-                {
-                    filename = filename.Replace(' ', '_');
-                }
 
                 TPath path = GetPath();
 
@@ -108,6 +104,7 @@ namespace StoryTeller.Domain
                 _name = value;
 
                 Path.GetInvalidFileNameChars().Each(x => { _name = _name.Replace(x, ' '); });
+                _name = _name.Replace(' ', '_');
             }
         }
 
