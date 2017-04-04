@@ -12,7 +12,11 @@ task :compile => [:clean, :version] do
 end
 
 desc 'Run the unit tests'
-task :test => [:compile] do
+task :test => [:compile, :fast_test] do
+end
+
+desc 'Run the unit tests without compile'
+task :fast_test do
   sh "src/packages/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe src/Storyteller.Testing/bin/#{COMPILE_TARGET}/Storyteller.Testing.dll"
 end
 

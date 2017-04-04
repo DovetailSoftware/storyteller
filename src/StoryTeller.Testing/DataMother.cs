@@ -20,6 +20,10 @@ namespace StoryTeller.Testing
 
         public static Project MathProject()
         {
+            var dir = Path.GetDirectoryName(typeof(InteractionContext<>).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
+
             var directory = Path.GetDirectoryName(THE_MATH_FILE);
             var empty = Path.Combine(directory, "EmptySuite");
             if (!Directory.Exists(empty))
