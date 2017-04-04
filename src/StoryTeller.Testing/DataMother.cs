@@ -1,10 +1,15 @@
 using System;
 using System.IO;
+using System.Xml;
 using StoryTeller.Domain;
 using StoryTeller.Engine;
 using StoryTeller.Execution;
 using StoryTeller.Model;
 using StoryTeller.Workspace;
+
+#if !DEBUG
+using FubuCore;
+#endif
 
 namespace StoryTeller.Testing
 {
@@ -32,7 +37,7 @@ namespace StoryTeller.Testing
 #else
             var newFile = Path.GetFileName(projectFile).Replace(".xml", "_release.xml");
             var releaseFile = projectFile.ToFullPath().ParentDirectory().AppendPath(newFile);
-            new FileSystem().Copy(projectFile, releaseFile);
+            new FubuCore.FileSystem().Copy(projectFile, releaseFile);
 
             var document = new XmlDocument();
             document.Load(releaseFile);
