@@ -9,7 +9,7 @@ namespace StoryTellerTestHarness
     {
         private ProjectTestRunner runner;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetupRunner()
         {
             runner = new ProjectTestRunner(@"..\..\..\..\samples\grammars.xml");
@@ -23,7 +23,7 @@ namespace StoryTellerTestHarness
             runner.WritePreview(test).OpenInBrowser();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TeardownRunner()
         {
             runner.Dispose();

@@ -1,13 +1,10 @@
 using System;
 using System.IO;
-using System.Xml;
 using StoryTeller.Domain;
 using StoryTeller.Engine;
 using StoryTeller.Execution;
 using StoryTeller.Model;
 using StoryTeller.Workspace;
-using FubuCore;
-using FileSystem = FubuCore.FileSystem;
 
 namespace StoryTeller.Testing
 {
@@ -30,26 +27,23 @@ namespace StoryTeller.Testing
 
         private static Project readProjectFile(string projectFile)
         {
-            if (AppDomain.CurrentDomain.BaseDirectory.ToLower().EndsWith("release"))
-            {
-                var newFile = Path.GetFileName(projectFile).Replace(".xml", "_release.xml");
-                var releaseFile = projectFile.ToFullPath().ParentDirectory().AppendPath(newFile);
-                new FileSystem().Copy(projectFile, releaseFile);
+#if DEBUG
+            return Project.LoadFromFile(projectFile);
+#else
+            var newFile = Path.GetFileName(projectFile).Replace(".xml", "_release.xml");
+            var releaseFile = projectFile.ToFullPath().ParentDirectory().AppendPath(newFile);
+            new FileSystem().Copy(projectFile, releaseFile);
 
-                var document = new XmlDocument();
-                document.Load(releaseFile);
+            var document = new XmlDocument();
+            document.Load(releaseFile);
 
-                var element = document.DocumentElement.SelectSingleNode("//BinaryFolder");
-                element.InnerText = element.InnerText.Replace("debug", "release");
+            var element = document.DocumentElement.SelectSingleNode("//BinaryFolder");
+            element.InnerText = element.InnerText.Replace("debug", "release");
 
-                document.Save(releaseFile);
+            document.Save(releaseFile);
 
-                return Project.LoadFromFile(releaseFile);
-            }
-            else
-            {
-                return Project.LoadFromFile(projectFile);
-            }
+            return Project.LoadFromFile(releaseFile);
+#endif
         }
 
         public static string MathProjectFile()

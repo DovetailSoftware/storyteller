@@ -21,6 +21,11 @@ namespace StoryTeller.Testing.Execution
 
         protected override void beforeEach()
         {
+            var dir = Path.GetDirectoryName(typeof(InteractionContext<>).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
+            
+
             if (!Directory.Exists("results"))
             {
                 Directory.CreateDirectory("results");
@@ -90,6 +95,9 @@ namespace StoryTeller.Testing.Execution
         [Test]
         public void load_files_from_directory()
         {
+            var dir = Path.GetDirectoryName(typeof(InteractionContext<>).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
             var runner = new DirectoryRunner(null, new TestReader(), null, new FileSystem(),
                                              new DirectoryRunnerSetup
                                              {

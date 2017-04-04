@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 using StoryTeller.Execution;
 
 namespace StoryTeller.Testing.Execution
@@ -11,6 +13,9 @@ namespace StoryTeller.Testing.Execution
         [SetUp]
         public void SetUp()
         {
+            var dir = Path.GetDirectoryName(typeof(InteractionContext<>).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
             runner = DataMother.MathProjectRunner();
         }
 

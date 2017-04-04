@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using HtmlTags;
 using NUnit.Framework;
 using StoryTeller.Domain;
@@ -38,6 +39,9 @@ namespace StoryTeller.Testing.Engine
         [Test]
         public void try_to_write_table()
         {
+            var dir = Path.GetDirectoryName(typeof(InteractionContext<>).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
             Project project = DataMother.MathProject();
             string xml =
                 @"

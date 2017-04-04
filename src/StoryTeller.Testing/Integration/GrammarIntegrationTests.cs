@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using NUnit.Framework;
 using StoryTeller.Domain;
 using StoryTeller.Engine;
@@ -15,9 +17,13 @@ namespace StoryTeller.Testing.Integration
         private ITestRunner runner;
         private Hierarchy hierarchy;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
+            var dir = Path.GetDirectoryName(typeof(DataMother).Assembly.CodeBase);
+            dir = new Uri(dir).LocalPath;
+            Directory.SetCurrentDirectory(dir);
+
             runner = TestRunnerBuilder.For(x => x.AddFixturesFromAssemblyContaining<GrammarMarker>());
             hierarchy = DataMother.GrammarProject().LoadTests();
         }
