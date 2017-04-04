@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using StoryTeller.Domain;
@@ -22,10 +23,16 @@ namespace StoryTeller.Testing.Engine
 
         private SampleGrammar grammar;
 
-        [Test, ExpectedException(ExpectedMessage = "There is no suitable public method for this Grammar")]
+        [Test]
         public void creating_a_single_line_grammar_without_a_suitable_method_will_throw_exception()
         {
-            new InvalidSingleLineGrammar();
+            var ex = Assert.Throws<ApplicationException>(() =>
+            {
+                new InvalidSingleLineGrammar();
+            });
+
+            ex.Message.ShouldEqual("There is no suitable public method for this Grammar");
+
         }
 
         [Test]

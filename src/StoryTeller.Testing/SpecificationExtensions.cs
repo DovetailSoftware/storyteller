@@ -238,13 +238,13 @@ namespace StoryTeller.Testing
 
         public static object ShouldBeOfType(this object actual, Type expected)
         {
-            Assert.IsInstanceOfType(expected, actual);
+            Assert.IsInstanceOf(expected, actual);
             return actual;
         }
 
         public static void ShouldNotBeOfType(this object actual, Type expected)
         {
-            Assert.IsNotInstanceOfType(expected, actual);
+            Assert.IsNotInstanceOf(expected, actual);
         }
 
         public static void ShouldContain(this IList actual, object expected)

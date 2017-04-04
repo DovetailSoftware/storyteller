@@ -326,10 +326,14 @@ namespace StoryTeller.Testing.Engine
             context.ResultsFor(step).ExceptionText.ShouldContain(exception.ToString());
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void revert_fixture_should_throw_an_exception_if_log_action_is_null()
         {
-            new TestContext().RevertFixture(null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new TestContext().RevertFixture(null);
+            });
+            
         }
 
         [Test]
@@ -459,12 +463,15 @@ namespace StoryTeller.Testing.Engine
             context.Retrieve<Test>().ShouldBeTheSameAs(test);
         }
 
-        [Test, ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void throw_argument_not_null_exception_when_the_log_action_is_null()
         {
-            var fixture = MockRepository.GenerateMock<IFixture>();
-            var context = new TestContext();
-            context.LoadFixture(fixture, null);
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var fixture = MockRepository.GenerateMock<IFixture>();
+                var context = new TestContext();
+                context.LoadFixture(fixture, null);
+            });
         }
     }
 

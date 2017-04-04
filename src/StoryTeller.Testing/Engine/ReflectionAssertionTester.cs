@@ -12,12 +12,17 @@ namespace StoryTeller.Testing.Engine
     [TestFixture]
     public class ReflectionAssertionTester
     {
-        [Test,
-         ExpectedException(typeof (ApplicationException), ExpectedMessage = "'NotAMethod' cannot be marked as an Assertion.  Only methods that return a boolean can be assertions")]
+        [Test]
         public void cannot_make_an_assertion_out_of_a_method_that_does_not_return_bool()
         {
-            MethodInfo method = typeof (AssertionFixture).GetMethod("NotAMethod");
-            new FactAssertion(method, new AssertionFixture());
+            var appEx = Assert.Throws<ApplicationException>(() =>
+            {
+                MethodInfo method = typeof(AssertionFixture).GetMethod("NotAMethod");
+                new FactAssertion(method, new AssertionFixture());
+            });
+
+            appEx.Message.ShouldEqual("'NotAMethod' cannot be marked as an Assertion.  Only methods that return a boolean can be assertions");
+
         }
 
         [Test]
